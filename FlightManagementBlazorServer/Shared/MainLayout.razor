@@ -1,0 +1,52 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager _navigationManager;
+@inject StateService _stateService;
+@implements IDisposable;
+
+<div class="page">
+    <div class="sidebar" id="sideNavigation">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            @if(_stateService.LoggedIn == null)
+            {
+                <NavLink class="btn LoginButton" href="Login">
+                    Login
+                </NavLink>
+            }
+            else
+            {
+                <button class="btn LogoutButton" type="button" @onclick="Logout">Logout</button>
+            }
+        </div>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code
+{
+    public void Logout()
+    {
+        _stateService.LoggedIn = null;
+        Close();
+    }
+
+    protected override void OnInitialized()
+    {
+        _stateService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _stateService.OnChange -= StateHasChanged;
+    }
+
+    private void Close()
+    {
+        _navigationManager.NavigateTo("/Login");
+    }
+}

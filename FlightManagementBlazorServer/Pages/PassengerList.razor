@@ -1,0 +1,57 @@
+﻿@page "/PassengerList";
+@using FlightManagementBlazorServer.Pages
+@inherits PassengerListBase;
+
+<h1>Passenger List</h1>
+
+<button type="button" class="btn btn-success buttonAdd" @onclick="ShowAddPassengerPage" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+    <span class="oi oi-plus"></span>
+    <span class="linkButtonText">Add Passenger</span>
+</button>
+
+@if(Passengers == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var passenger in Passengers)
+            {
+                <tr>
+                    <td class="boldColumn">@passenger.Name</td>
+                    <td class="boldColumn">@passenger.Surname</td>
+                    <td>@passenger.Email</td>
+                    <td>@passenger.Gender</td
+                    <td class="secondEndDiv">
+                        <button type="button" class="btn btn-primary" @onclick="() => OpenEditPassengerPage(passenger.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-pencil"></span>
+                            <span class="linkButtonText"> Edit </span>
+                        </button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeletePassengerAsync(passenger.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-delete"></span>
+                             <span class="linkButtonText"> Delete </span>
+                       </button>
+                    <td class="endDiv"></td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

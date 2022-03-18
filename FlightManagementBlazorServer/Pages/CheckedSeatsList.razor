@@ -1,0 +1,46 @@
+﻿@page "/CheckedSeatsList/{FlightId}"
+@using FlightManagementBlazorServer.Services
+@inject SeatService _seatService;
+@inject NavigationManager _navigationManager;
+@inherits CheckedSeatsListBase;
+
+<h1>Checked Seats</h1>
+
+@if(Seats == null)
+{
+    <div class="fourOThreeText">Loading...</div>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Flight</th>
+                <th>Passenger</th>
+                <th>Checked</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var seat in Seats)
+            {
+                <tr>
+                    <td class="boldColumn">@seat.Number</td>
+                    <td>@seat.Flight?.Number</td>
+                    <td>@seat.Passenger?.Surname</td>
+                    <td>@seat.IsChecked</td>
+                    <td class="secondEndDiv">
+                    </td>
+                    <td class="endDiv"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

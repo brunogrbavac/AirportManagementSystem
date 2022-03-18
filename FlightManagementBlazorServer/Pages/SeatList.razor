@@ -1,0 +1,58 @@
+﻿@page "/SeatList/{FlightId}"
+@using FlightManagementBlazorServer.Services
+@inherits SeatListBase;
+
+<h1>Seats</h1>
+
+@if(Seats == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Flight</th>
+                <th>Passenger</th>
+                <th>Checked</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var seat in Seats)
+            {
+                <tr>
+                    <td class="boldColumn">@seat.Number</td>
+                    <td>@seat.Flight?.Number</td>
+                    <td>@seat.Passenger?.Surname</td>
+                    <td>@seat.IsChecked</td>
+                    <td class="secondEndDiv">
+                        <button  @onclick="() => OpenEditSeatPage(seat.Id)" class="btn btn-primary" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-pencil"></span>    
+                            <span class="linkButtonText"> Edit </span>
+                        </button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteSeat(seat.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-delete"></span>
+                            <span class="linkButtonText"> Delete </span>
+                        </button>
+                        <button type="button" class="btn btn-dark" @onclick="() => CheckSeat(seat.Id)" disabled="@(seat.IsChecked || _stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))">
+                            <span class="oi oi-check"></span>
+                            <span class="linkButtonText"> Check </span>
+                        </button>
+                    </td>
+                    <td class="endDiv"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<ConfirmationDialog @ref="DeleteConfirmationDialog" ConfirmationChanged="@OnDeleteConfirmationSelected" Question="Delete seat?"></ConfirmationDialog>
+<ConfirmationDialog @ref="CheckConfirmationDialog" ConfirmationChanged="@OnCheckConfirmationSelected" Question="Check seat?"></ConfirmationDialog>

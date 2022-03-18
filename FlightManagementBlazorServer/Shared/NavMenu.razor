@@ -1,0 +1,68 @@
+﻿@inject StateService _stateService;
+@implements IDisposable;
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Flight Management System</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-globe" aria-hidden="true"></span> Flights
+            </NavLink>
+        </li>
+
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="CarrierList">
+                <span class="oi oi-briefcase" aria-hidden="true"></span> Carriers
+            </NavLink>
+        </li>
+        @if(_stateService.LoggedIn!=null && (_stateService.LoggedIn=="Admin"))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="UserList">
+                    <span class="oi oi-person" aria-hidden="true"></span> Users
+                </NavLink>
+            </li>
+        }
+        @if(_stateService.LoggedIn!=null && (_stateService.LoggedIn=="Admin" || _stateService.LoggedIn=="CheckIn"))
+        {
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="PassengerList">
+                    <span class="oi oi-people" aria-hidden="true"></span> Passengers
+                </NavLink>
+            </li>
+        }
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="archivedFlightList">
+                <span class="oi oi-folder" aria-hidden="true"></span> Archived Flights
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override void OnInitialized()
+    {
+        _stateService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        _stateService.OnChange -= StateHasChanged;
+    }
+
+}

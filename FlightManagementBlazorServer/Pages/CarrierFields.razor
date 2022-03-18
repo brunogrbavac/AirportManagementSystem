@@ -1,0 +1,12 @@
+﻿<div class="carrierFields">
+    <label for="carrierName" class="formLabel">Name:</label>
+    <InputText id="carrierName" @bind-Value="@Carrier.Name" class="form-control"></InputText>
+
+    <label for="carrierCountry" class="formLabel">Country:</label>
+    <InputText id="carrierCountry" @bind-Value="@Carrier.Country" class="form-control"></InputText>
+</div>
+
+@code {
+    [Parameter]
+    public Carrier Carrier { get; set; }
+}

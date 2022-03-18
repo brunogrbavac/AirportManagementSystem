@@ -1,0 +1,49 @@
+﻿@page "/CarrierList"
+@inherits CarrierListBase;
+
+<h1>Carrier List</h1>
+
+<button type="button" class="btn btn-success buttonAdd" @onclick="ShowAddCarrierPage" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+    <span class="oi oi-plus"></span>
+    <span class="linkButtonText">Add Carrier</span>
+</button>
+
+@if(Carriers == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Country</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var carrier in Carriers)
+            {
+                <tr>
+                    <td class="boldColumn">@carrier.Name</td>
+                    <td>@carrier.Country</td>
+                    <td class="secondEndDiv">
+                        <button type="button" class="btn btn-primary linkButton" @onclick="() => OpenEditCarrierPage(carrier.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-pencil"></span>
+                            <span class="linkButtonText"> Edit </span>
+                        </button>
+                        <button type="button" class="btn btn-danger linkButton" @onclick="() => OpenDeleteCarrierPopup(carrier.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-delete"></span>
+                            <span class="linkButtonText"> Delete </span>
+                        </button>
+                    </td>
+                    <td class="endDiv"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<ConfirmationDialog @ref="DeleteConfirmationDialog" ConfirmationChanged="@OnDeleteConfirmationSelected" Question="Delete carrier?"></ConfirmationDialog>

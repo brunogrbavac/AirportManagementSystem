@@ -1,0 +1,69 @@
+﻿@inject PassengerService _passengerService;
+@inject FlightService _flightService;
+
+@if(Flights == null || Passengers==null)
+{
+    <p>Loading...</p>
+
+}
+else
+{
+<div class="seatFields">
+    <label for="seatName" class="formLabel">Number:</label>
+    <InputText id="seatName" @bind-Value="@Seat.Number" class="form-control"></InputText>
+
+    <label for="Passenger" class="formLabel">Passenger:</label>
+    <InputSelect id="Passenger" @bind-Value="Seat.PassengerId" class="form-control">
+        <option value="">Select...</option>
+        @foreach(var passenger in Passengers)
+        {
+            <option value="@passenger.Id">@passenger.Name @passenger.Surname</option>
+        }
+    </InputSelect>
+
+    @if(!AddOrEdit)
+    {
+        <label for="Flight" class="formLabel">Flight:</label>
+        <InputSelect id="Flight" @bind-Value="Seat.FlightId" class="form-control" disabled>
+            <option value="">Select...</option>
+            @foreach(var flight in Flights)
+            {
+                <option value="@flight.Id">@flight.Number</option>
+            }
+        </InputSelect>
+    }
+
+    @if(Seat.IsChecked)
+    {
+        <div class="seatCheckbox">
+            <InputCheckbox id="Checked" @bind-Value="Seat.IsChecked" class="form-control check-control" disabled="IsChecked"/>    
+            <label for="Checked" class="formLabel checkbox-label">Checked</label>
+        </div>
+    }
+    else
+    {
+        <div class="seatCheckbox">
+            <InputCheckbox id="Checked" @bind-Value="Seat.IsChecked" class="form-control check-control"/>    
+            <label for="Checked" class="formLabel checkbox-label">Checked</label>
+        </div>            
+    }
+</div>
+}
+
+@code {
+    [Parameter]
+    public Seat Seat { get; set; }
+
+    [Parameter]
+    public bool AddOrEdit { get; set; }
+
+    public List<Flight> Flights{ get; set; }
+    public List<Passenger> Passengers{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Passengers = await _passengerService.GetPassengersAsync();
+        Flights = await _flightService.GetFlights();
+    }
+
+}

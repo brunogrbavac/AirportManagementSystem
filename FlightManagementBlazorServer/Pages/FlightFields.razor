@@ -1,0 +1,45 @@
+﻿@inject CarrierService _carrierService;
+
+@if(Carriers == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+ <div class="flightFields">
+    <label for="flightNumber" class="formLabel">Flight Number:</label>
+    <InputText id="flightNumber" @bind-Value="@Flight.Number" class="form-control"></InputText>
+
+    <label for="flightDate" class="formLabel">Flight Date:</label>
+    <InputDate id="flightDate" @bind-Value="@Flight.FlightDate" class="form-control"></InputDate>
+
+    <label for="flightTime" class="formLabel">Flight Time:</label>
+    <InputText id="flightTime" @bind-Value="@Flight.FlightTime" class="form-control"></InputText>
+
+    <label for="Carriers" class="formLabel">Carrier:</label>
+    <InputSelect id="Carriers" @bind-Value="Flight.CarrierId" class="form-control">
+        <option value="">Select...</option>
+        @foreach(var carrier in Carriers)
+        {
+            <option value="@carrier.Id">@carrier.Name</option>
+        }
+    </InputSelect>
+
+    <label for="airportTo" class="formLabel">Airport To:</label>
+    <InputText id="airportTo" @bind-Value="@Flight.AirportTo" class="form-control"></InputText>
+</div>    
+
+}
+
+
+@code {
+    [Parameter]
+    public Flight Flight { get; set; }
+
+    public List<Carrier> Carriers{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Carriers = await _carrierService.GetCarriersAsync();
+    }
+}

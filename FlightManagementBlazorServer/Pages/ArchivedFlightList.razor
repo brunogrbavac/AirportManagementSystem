@@ -1,0 +1,47 @@
+﻿@page "/archivedFlightList"
+@inject NavigationManager _navigationManager;
+@inject FlightService _flightService;
+<h1>Archived Flights</h1>
+
+@if(Flights == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Airport to</th>
+                <th>Carrier</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var flight in Flights)
+            {
+                <tr>
+                    <td>@flight.Number</td>
+                    <td class="boldColumn">@flight.AirportTo</td>
+                    <td>@flight.Carrier?.Name</td>
+                    <td>@flight.FlightDate.ToString("dd.MM.yyyy")</td>
+                    <td  class="secondEndDiv">@flight.FlightTime</td>
+                    <td class="endDiv"></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public List<Flight> Flights { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Flights = await _flightService.GetArchivedFlights();
+    }
+}

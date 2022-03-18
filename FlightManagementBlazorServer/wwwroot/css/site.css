@@ -1,0 +1,150 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+#sideNavigation {
+    background: linear-gradient(180deg, #010C20 0%, #0068FF 200%);
+}
+
+table {
+    min-width: 100%
+}
+
+h1 {
+    font-weight: 700;
+}
+/*_______________________________________________________________________________________________________*/
+
+.navbar-brand {
+    font-size:2rem;
+    font-weight: 700;
+}
+.top-row {
+    padding: 1rem 0;
+}
+.LoginButton {
+    background: linear-gradient(180deg, #010C20 0%, #0068FF 200%);
+    color: white;
+    font-weight: 700;
+    padding-right: 2rem;
+    padding-left: 2rem;
+   
+}
+.LoginButton:hover {
+    color: lightgray;
+}
+.LogoutButton {
+    background-color: #FFCF26;
+    
+    color: black;
+    font-weight: 700;
+    padding-right: 2rem;
+    padding-left: 2rem;
+}
+.LogoutButton:hover {
+    background-color: #e0b625;
+}
+.buttonAdd {
+    margin: 1.5rem 1rem 0 0;
+    padding: 0.8rem 1rem;
+    font-weight: bolder;
+}
+
+.linkButtonText {
+    margin-left: 0.5rem;
+}
+
+.linkButton {
+    margin: 0 0.5rem;
+}
+
+.boldColumn {
+    font-weight: bolder;
+}
+
+.secondEndDiv {
+    display: inline;
+    width: fit-content;
+}
+
+.endDiv {
+    width: fill-available;
+}
+.formLabel {
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 0.2rem;
+}
+.table-striped{
+    margin-top: 2rem;
+}
+.seatCheckbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 2rem 0 1rem 0;
+}
+.check-control {
+    width: 3rem !important;
+    margin-right: 0.7rem;
+}
+.
+{
+    margin: 0 !important;
+    font-size: 1.4rem;
+}
+.fourOThreeText {
+    margin: 40vh auto 0 auto;
+    font-size: 2rem;
+    text-align: center;
+}
+.fourOThree{
+    font-weight:800;
+}

@@ -1,0 +1,57 @@
+﻿@page "/UserList";
+@using FlightManagementBlazorServer.Pages
+@inherits UserListBase;
+
+<h1>User List</h1>
+
+@if(Users == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <button type="button" class="btn btn-success buttonAdd" @onclick="ShowAddUserPage">
+        <span class="oi oi-plus"></span>
+        <span class="linkButtonText">Add User</span>
+    </button>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var user in Users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td class="boldColumn">@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td
+                    <td class="secondEndDiv">
+                        <button type="button" class="btn btn-primary" @onclick="() => OpenEditUserPage(user.Id)">
+                            <span class="oi oi-pencil"></span>
+                            <span class="linkButtonText"> Edit </span>
+                        </button>
+                        <button type="button" class="btn btn-danger" @onclick="() => DeleteUserAsync(user.Id)">
+                            <span class="oi oi-delete"></span>
+                            <span class="linkButtonText"> Delete </span>
+                        </button>
+                    <td class="endDiv"></td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

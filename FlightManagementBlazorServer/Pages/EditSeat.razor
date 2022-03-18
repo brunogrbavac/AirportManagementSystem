@@ -1,0 +1,30 @@
+﻿@page "/EditSeat/{SeatId}"
+@inherits EditSeatBase;
+
+<h1>Edit Seat</h1>
+
+@if(Seat == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <EditForm Model="@Seat"  OnValidSubmit="@UpdateSeatAsync">
+        <SeatFields Seat="@Seat" AddOrEdit="false"></SeatFields>
+        <button type="submit" class="btn btn-success buttonAdd">
+            <span class="oi-pencil"></span>
+            <span class="linkButtonText">Update Seat</span>
+        </button>
+        <button type="button" class="btn btn-secondary buttonAdd" @onclick="Close">
+            <span class="oi oi-media-skip-backward"></span>
+            <span class="linkButtonText">Close</span>
+        </button>
+    </EditForm>
+}
+
+<NotificationDialog @ref="NotificationDialog" Description="@ConcatenatedValidationErrors"></NotificationDialog>
+

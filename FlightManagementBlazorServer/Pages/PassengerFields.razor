@@ -1,0 +1,22 @@
+﻿<div class="passengerFields">
+    <label for="passengerName" class="formLabel">Name:</label>
+    <InputText id="passengerName" @bind-Value="@Passenger.Name" class="form-control"></InputText>
+
+    <label for="passengerSurname" class="formLabel">Surname:</label>
+    <InputText id="passengerSurname" @bind-Value="@Passenger.Surname" class="form-control"></InputText>
+
+    <label for="passengerEmail" class="formLabel">Email:</label>
+    <InputText id="passengerEmail" @bind-Value="@Passenger.Email" class="form-control"></InputText>
+
+    <label for="passengerGender" class="formLabel">Gender:</label>
+    <InputSelect  id="passengerGender" @bind-Value="@Passenger.Gender" class="form-control" >
+        <option value="">Select...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </InputSelect>
+</div>
+
+@code {
+    [Parameter]
+    public Passenger Passenger { get; set; }
+}

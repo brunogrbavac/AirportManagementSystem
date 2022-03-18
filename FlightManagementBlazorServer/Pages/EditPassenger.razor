@@ -1,0 +1,29 @@
+﻿@page "/EditPassenger/{PassengerId}"
+@inherits EditPassengerBase;
+
+<h1>Edit Passenger</h1>
+
+@if(Passenger == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <EditForm Model="@Passenger" OnValidSubmit="@UpdatePassengerAsync">
+        <PassengerFields Passenger="@Passenger"></PassengerFields>
+        <button type="submit" class="btn btn-success buttonAdd">
+            <span class="oi oi-pencil"></span>
+            <span class="linkButtonText">Update Passenger</span>
+        </button>
+        <button type="button" class="btn btn-secondary" @onclick="Close">
+            <span class="oi oi-media-skip-backward"></span>
+            <span class="linkButtonText">Close</span>
+        </button>
+    </EditForm>
+}
+
+<NotificationDialog @ref="NotificationDialog" Description="@ConcatenatedValidationErrors"></NotificationDialog>

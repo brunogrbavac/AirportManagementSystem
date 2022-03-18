@@ -1,0 +1,31 @@
+﻿@page "/Login"
+@inherits LoginBase;
+
+<h1>Login</h1>
+
+@if(User == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else if(_stateService.LoggedIn=="CheckIn" || _stateService.LoggedIn=="Admin")  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> You are already logged in.</p>
+}
+else
+{
+    <EditForm Model="@User" OnValidSubmit="@LoginUserAsync">
+        <div class="carrierFields">
+            <label for="userUsername" class="formLabel">Username:</label>
+            <InputText id="userUsername" @bind-Value="@User.Username" class="form-control"></InputText>
+
+            <label for="userPassword" class="formLabel">Password:</label>
+            <InputText id="userPassword" @bind-Value="@User.Password" class="form-control" type="password" ></InputText>
+        </div>
+        <button type="submit" class="btn btn-success buttonAdd">
+            <span class="oi oi-person"></span>
+            <span class="linkButtonText">Login</span>
+        </button>
+    </EditForm>
+}
+
+<NotificationDialog @ref="NotificationDialog" Description="@ConcatenatedValidationErrors"></NotificationDialog>

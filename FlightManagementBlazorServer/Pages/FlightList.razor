@@ -1,0 +1,74 @@
+﻿@page "/"
+@inherits FlightListBase;
+
+<h1>Flights</h1>
+
+<button type="button" class="btn btn-success buttonAdd" @onclick="OpenAddFlightPage" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+    <span class="oi oi-plus"></span>
+    <span class="linkButtonText"> Add Flight</span>
+</button>
+
+@if(Flights == null)
+{
+    <p class="fourOThreeText">Loading...</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Airport to</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Carrier</th>
+                <th></th>
+                <th class="endDiv"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var flight in Flights)
+            {
+                <tr>
+                    <td>@flight.Number</td>
+                    <td class="boldColumn">@flight.AirportTo</td>
+                    <td>@flight.FlightDate.ToString("dd.MM.yyyy")</td>
+                    <td>@flight.FlightTime</td>
+                    <td>@flight.Carrier?.Name</td>
+                    <td class="secondEndDiv">
+                        <button type="button" class="btn btn-primary linkButton" @onclick="() => OpenEditFlightPage(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-pencil"></span>    
+                            <span class="linkButtonText"> Edit </span>
+                        </button>
+                        <button type="button" class="btn btn-danger linkButton" @onclick="() => DeleteFlight(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-delete"></span> 
+                            <span class="linkButtonText"> Delete </span>
+                        </button>
+                        <button type="button" class="btn btn-secondary linkButton" @onclick="() => ArchiveFlight(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-transfer"> </span>
+                            <span class="linkButtonText"> Archive </span>
+                        </button>
+                        <button type="button" class="btn btn-warning linkButton" @onclick="() => OpenAddSeatPage(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))">
+                            <span class="oi oi-person"> </span>
+                            <span class="linkButtonText"> Add Seat </span>
+                        </button>
+                        <button type="button" class="btn btn-info linkButton" @onclick="() => OpenSeatListPage(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))">
+                            <span class="oi oi-people"> </span>
+                            <span class="linkButtonText"> Passengers</span>
+                        </button>
+                        <button type="button" class="btn btn-dark linkButton" @onclick="() => OpenCheckedSeatListPage(flight.Id)" disabled="@(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin" && _stateService.LoggedIn!="CheckIn"))">
+                            <span class="oi oi-check"> </span>
+                            <span class="linkButtonText"> Checked Seats </span>
+                        </button>
+                    </td>
+                    <td class="endDiv"></td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+
+}
+
+<ConfirmationDialog @ref="DeleteConfirmationDialog" ConfirmationChanged="@OnDeleteConfirmationSelected" Question="Delete flight?"></ConfirmationDialog>
+<ConfirmationDialog @ref="ArchiveConfirmationDialog" ConfirmationChanged="@OnArchiveConfirmationSelected" Question="Archive flight?"></ConfirmationDialog>

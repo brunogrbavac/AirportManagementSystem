@@ -1,0 +1,28 @@
+﻿@page "/AddSeat/{FlightId}"
+@using System.Text;
+@inject SeatService _seatService;
+@inject NavigationManager _navigationManager;
+@inherits AddSeatBase;
+
+<h1>Add Seat</h1>
+
+@if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <EditForm Model="@Seat" OnValidSubmit="@AddSeatAsync">
+        <SeatFields Seat="@Seat" AddOrEdit="true"></SeatFields>
+        <button type="submit" class="btn btn-success buttonAdd">
+            <span class="oi oi-pencil"></span>
+            <span class="linkButtonText">Add Seat</span>
+        </button>
+        <button type="button" class="btn btn-secondary buttonAdd" @onclick="Close">
+            <span class="oi oi-media-skip-backward"></span>
+            <span class="linkButtonText">Close</span>
+        </button>
+    </EditForm>
+}
+<NotificationDialog @ref="NotificationDialog" Description="@ConcatenatedValidationErrors"></NotificationDialog>
+

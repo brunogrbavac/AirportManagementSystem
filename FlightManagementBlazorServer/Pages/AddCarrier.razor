@@ -1,0 +1,23 @@
+﻿@page "/AddCarrier"
+@inherits AddCarrierBase;
+
+<h1>Add Carrier</h1>
+
+@if(_stateService.LoggedIn==null || (_stateService.LoggedIn!="Admin"))  
+{
+      <p class="fourOThreeText"><span class="fourOThree">403 |</span> No access rights.</p>
+}
+else
+{
+    <EditForm Model="@Carrier" OnValidSubmit="@AddCarrierAsync">
+        <CarrierFields Carrier="@Carrier"></CarrierFields>
+        <button type="submit" class="btn btn-success buttonAdd">
+            <span class="oi oi-pencil"></span>
+            <span class="linkButtonText"> Add Carrier</span>
+        </button>
+        <button type="button" class="btn btn-secondary buttonAdd" @onclick="Close">
+            <span class="oi oi-media-skip-backward"></span>
+            <span class="linkButtonText"> Close </span>
+        </button>
+    </EditForm>
+}
